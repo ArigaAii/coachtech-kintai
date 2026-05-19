@@ -9,7 +9,7 @@
 3. docker-compose up -d --build
 
 ```bash
-git clone git@github.com:xxxxx/coachtech-kintai.git
+git clone git@github.com:ArigaAii/coachtech-kintai.git
 cd coachtech-kintai
 docker-compose up -d --build
 ```
