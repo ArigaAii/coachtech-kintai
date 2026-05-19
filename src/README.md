@@ -28,7 +28,7 @@ docker-compose exec php bash
 composer install
 ```
 
-3.「.env.example」ファイルから「.env」を作成し、環境変数を変更
+3. 「.env.example」ファイルから「.env」を作成し、環境変数を変更
 
 ```bash
 cp .env.example .env
@@ -224,12 +224,13 @@ erDiagram
         timestamp created_at
         timestamp updated_at
     }
+```
 
 ## URL
 
-- 開発環境：http://localhost/
-- phpMyAdmin：http://localhost:8080/
-- MailHog：http://localhost:8025/
+- 開発環境： http://localhost/
+- phpMyAdmin： http://localhost:8080/
+- MailHog： http://localhost:8025/
 
 ## テスト実行
 ```bash
@@ -244,14 +245,9 @@ php artisan test
 
 ### 一般ユーザー
 
-- email：reina.n@coachtech.com
-- password：password
-
+- reina.n@coachtech.com / password
 - taro.y@coachtech.com / password
-- issei.m@coachtech.com / password
-- keikichi.y@coachtech.com / password
-- tomomi.a@coachtech.com / password
-- norio.n@coachtech.com / password
+
 
 ## ダミーデータ
 
@@ -272,22 +268,14 @@ php artisan db:seed
 
 ```bash
 php artisan test
-```
 
-### テスト用DB作成
-
-```bash
+# テスト用DB作成
 docker-compose exec mysql bash
 mysql -u root -p
-```
 
-パスワードは `root`
-
-```sql
+# パスワードは root
 create database test_database;
-```
 
-```bash
 docker-compose exec php bash
 php artisan migrate:fresh --env=testing
 ./vendor/bin/phpunit
@@ -332,4 +320,4 @@ php artisan migrate:fresh --env=testing
 
 ## レスポンシブ対応
 
-1400px〜1540pxでレイアウト崩れが発生しないよう実装しています。
+PC画面（1400px〜1540px）に対応したレスポンシブデザインを実装しています。
