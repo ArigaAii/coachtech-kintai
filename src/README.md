@@ -319,4 +319,4 @@ php artisan migrate:fresh --env=testing
 
 ## レスポンシブ対応
 
-PC画面（1400px〜1540px）に対応したレスポンシブデザインを実装しています。git add .
+PC画面（1400px〜1540px）に対応したレスポンシブデザインを実装しています。
