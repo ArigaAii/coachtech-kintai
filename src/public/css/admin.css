@@ -1,0 +1,283 @@
+/* 管理者 勤怠一覧 */
+
+.main {
+    width: 100%;
+    max-width: 1540px;
+    margin: 0 auto;
+}
+
+.content {
+    width: 100%;
+    padding: 40px 0 80px;
+}
+
+.header {
+    width: 100%;
+    max-width: 1540px;
+    margin: 0 auto;
+}
+
+
+.admin-page,
+.attendance-detail,
+.request-list {
+    width: 90%;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="time"],
+textarea {
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.date-nav {
+    width: 100%;
+    margin: 40px 0;
+    padding: 14px 24px;
+    background: #fff;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.date-nav a {
+    color: #737373;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.date-nav__current {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.date-nav__current i {
+    color: #555;
+    font-size: 24px;
+}
+
+.attendance-detail {
+    width: 900px;
+    margin: 0 auto;
+}
+
+.attendance-detail__table {
+    width: 100%;
+    background: #fff;
+    border-radius: 10px;
+    border-collapse: collapse;
+    overflow: hidden;
+}
+
+.attendance-detail__table th,
+.attendance-detail__table td {
+    padding: 24px 32px;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 18px;
+}
+
+.attendance-detail__table th {
+    width: 220px;
+    color: #737373;
+    text-align: left;
+    font-weight: 700;
+}
+
+.attendance-detail__table td {
+    color: #000;
+    font-weight: 700;
+}
+
+.attendance-detail__table input[type="time"] {
+    width: 110px;
+    padding: 6px 10px;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    font-size: 18px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.attendance-detail__table textarea {
+    width: 320px;
+    max-width: 100%;
+    height: 72px;
+    padding: 8px;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.detail-button {
+    margin-top: 40px;
+    text-align: right;
+}
+
+.detail-button__submit {
+    width: 130px;
+    padding: 12px 0;
+    border: none;
+    border-radius: 5px;
+    background: #000;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.detail-table {
+    width: 100%;
+    background: #fff;
+    border-radius: 10px;
+    border-collapse: collapse;
+    overflow: hidden;
+}
+
+.detail-table th,
+.detail-table td {
+    padding: 24px 32px;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 18px;
+}
+
+.detail-table th {
+    width: 220px;
+    color: #737373;
+    text-align: left;
+    font-weight: 700;
+}
+
+.detail-table td {
+    color: #000;
+    font-weight: 700;
+}
+
+.detail-table tr:last-child th,
+.detail-table tr:last-child td {
+    border-bottom: none;
+}
+
+.correction-message {
+    margin: 24px 0 0;
+    color: #ff0000;
+    font-size: 16px;
+    font-weight: 700;
+    text-align: right;
+}
+
+.approve-form {
+    margin-top: 32px;
+    text-align: right;
+}
+
+.approve-button {
+    width: 130px;
+    padding: 12px 0;
+    border: none;
+    border-radius: 5px;
+    background: #000;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.approve-button--disabled {
+    background: #696969;
+    cursor: default;
+}
+
+.request-tabs {
+    width: 100%;
+    margin: 0 0 24px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #000;
+    display: flex;
+    gap: 80px;
+}
+
+.request-tabs__item {
+    color: #737373;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.request-tabs__item--active {
+    color: #000;
+}
+
+.request-list {
+    width: 100%;
+    margin: 0;
+}
+
+.admin-table {
+    width: 100%;
+    margin: 0;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 16px 12px;
+    border-bottom: 1px solid #e0e0e0;
+    text-align: center;
+    font-size: 16px;
+    color: #737373;
+}
+
+.admin-table th {
+    font-weight: 700;
+}
+
+.admin-table td {
+    font-weight: 600;
+}
+
+.admin-table tr:last-child td {
+    border-bottom: none;
+}
+
+.admin-table a {
+    color: #000;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.admin-table__detail {
+    color: #000;
+    font-weight: 700;
+}
+
+.csv-button-wrap {
+    width: 900px;
+    margin: 40px auto 0;
+    text-align: right;
+}
+
+.csv-button {
+    display: inline-block;
+    padding: 12px 36px;
+    background: #000;
+    color: #fff;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 700;
+}
+

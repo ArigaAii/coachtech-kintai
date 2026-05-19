@@ -1,0 +1,59 @@
+.attendance-register {
+    text-align: center;
+    margin-top: 80px;
+}
+
+.attendance-register__status {
+    display: inline-block;
+    padding: 8px 16px;
+    background: #c8c8c8;
+    border-radius: 20px;
+    color: #696969;
+    font-weight: bold;
+}
+
+.attendance-register__date {
+    margin-top: 32px;
+    font-size: 32px;
+}
+
+.attendance-register__time {
+    font-size: 80px;
+    font-weight: bold;
+    margin: 16px 0 40px;
+}
+
+.attendance-register__button {
+    width: 180px;
+    height: 50px;
+    border: none;
+    border-radius: 8px;
+    background: #000;
+    color: #fff;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 0 8px;
+}
+
+.attendance-register__button--sub {
+    background: #fff;
+    color: #000;
+    border: 0;
+}
+
+.attendance-register__message {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.attendance-register__actions {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 40px;
+}
+
+.attendance-register__actions form {
+    margin: 0;
+}
