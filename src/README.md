@@ -281,7 +281,7 @@ php artisan migrate:fresh --env=testing
 ./vendor/bin/phpunit
 ```
 
-- 以下のテストを実施済みです。
+- 以下の機能についてFeatureテストを実施済みです。
 
 - 会員登録機能
 - ログイン機能
@@ -315,9 +315,8 @@ php artisan migrate:fresh --env=testing
 - スタッフ一覧表示
 - 勤怠詳細修正
 - 修正申請承認
-- 修正申請却下
 
 
 ## レスポンシブ対応
 
-PC画面（1400px〜1540px）に対応したレスポンシブデザインを実装しています。
+PC画面（1400px〜1540px）に対応したレスポンシブデザインを実装しています。git add .
