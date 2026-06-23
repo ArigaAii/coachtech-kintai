@@ -99,14 +99,16 @@ textarea {
     font-weight: 700;
 }
 
-.attendance-detail__table input[type="time"] {
-    width: 110px;
-    padding: 6px 10px;
+.attendance-detail__table input[type="text"] {
+    width: 90px;
+    height: 24px;
+    padding: 2px 8px;
     border: 1px solid #d9d9d9;
     border-radius: 4px;
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 700;
     text-align: center;
+    box-sizing: border-box;
 }
 
 .attendance-detail__table textarea {
@@ -166,6 +168,16 @@ textarea {
 .detail-table tr:last-child th,
 .detail-table tr:last-child td {
     border-bottom: none;
+}
+
+.attendance-detail__table input[type="text"] {
+    width: 110px;
+    padding: 6px 10px;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    font-size: 18px;
+    font-weight: 700;
+    text-align: center;
 }
 
 .correction-message {
@@ -281,3 +293,23 @@ textarea {
     font-weight: 700;
 }
 
+.detail-name {
+    display: inline-flex;
+    gap: 24px;;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.detail-date {
+    width: 260px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.detail-time {
+    display: inline-flex;
+    align-items: center;
+    gap: 28px;
+}

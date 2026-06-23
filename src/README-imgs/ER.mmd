@@ -1,0 +1,65 @@
+
+```mermaid
+erDiagram
+    users ||--o{ attendances : has
+    users ||--o{ attendance_correction_requests : requests
+    users ||--o{ attendance_correction_requests : reviews
+    attendances ||--o{ attendance_breaks : has
+    attendances ||--o{ attendance_correction_requests : has
+    attendance_correction_requests ||--o{ attendance_correction_request_breaks : has
+
+    users {
+        bigint id PK
+        varchar name
+        varchar email UK
+        timestamp email_verified_at
+        varchar password
+        varchar role
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    attendances {
+        bigint id PK
+        bigint user_id FK
+        date work_date "user_idとの複合ユニーク"
+        datetime clock_in_at
+        datetime clock_out_at
+        varchar status
+        text note
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    attendance_breaks {
+        bigint id PK
+        bigint attendance_id FK
+        datetime break_start_at
+        datetime break_end_at
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    attendance_correction_requests {
+        bigint id PK
+        bigint attendance_id FK
+        bigint user_id FK
+        datetime requested_clock_in_at
+        datetime requested_clock_out_at
+        text reason
+        varchar status
+        bigint reviewed_by FK
+        datetime reviewed_at
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    attendance_correction_request_breaks {
+        bigint id PK
+        bigint attendance_correction_request_id FK
+        datetime requested_break_start_at
+        datetime requested_break_end_at
+        timestamp created_at
+        timestamp updated_at
+    }
+```

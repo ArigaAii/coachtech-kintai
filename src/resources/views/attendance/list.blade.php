@@ -25,6 +25,7 @@
             <a href="{{ route('attendance.list', ['month' => $prevMonth]) }}">← 前月</a>
 
             <div class="date-nav__current">
+                <i class="fa-regular fa-calendar-days"></i>
                 {{ \Carbon\Carbon::createFromFormat('Y-m', $currentMonth)->format('Y/m') }}
             </div>
 

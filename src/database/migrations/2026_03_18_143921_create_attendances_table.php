@@ -22,7 +22,6 @@ class CreateAttendancesTable extends Migration
             $table->string('status', 20)->default('勤務外');
             $table->text('note')->nullable();
             $table->timestamps();
-
             $table->unique(['user_id', 'work_date']);
         });
     }

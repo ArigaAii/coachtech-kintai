@@ -94,4 +94,69 @@ class CorrectionRequestTest extends TestCase
         $response->assertSee('承認待ち');
         $response->assertSee('電車遅延のため');
     }
+
+    /** @test */
+    public function 承認済みの申請が一覧に表示される()
+    {
+        $user = $this->createUser();
+
+        $attendance = Attendance::create([
+            'user_id' => $user->id,
+            'work_date' => now()->toDateString(),
+            'clock_in_at' => now()->setTime(9, 0),
+            'clock_out_at' => now()->setTime(18, 0),
+        ]);
+
+        AttendanceCorrectionRequest::create([
+            'attendance_id' => $attendance->id,
+            'user_id' => $user->id,
+            'requested_clock_in_at' => now()->setTime(9, 30),
+            'requested_clock_out_at' => now()->setTime(18, 30),
+            'reason' => '通院のため',
+            'status' => 'approved',
+        ]);
+
+        $response = $this->actingAs($user)
+            ->get(route('stamp_correction_request.index', ['status' => 'approved']));
+
+        $response->assertOk();
+        $response->assertSee('承認済み');
+        $response->assertSee('通院のため');
+    }
+
+    /** @test */
+    public function 申請一覧の詳細から勤怠詳細画面に遷移できる()
+    {
+        $user = $this->createUser();
+
+        $attendance = Attendance::create([
+            'user_id' => $user->id,
+            'work_date' => now()->toDateString(),
+            'clock_in_at' => now()->setTime(9, 0),
+            'clock_out_at' => now()->setTime(18, 0),
+        ]);
+
+        AttendanceCorrectionRequest::create([
+        'attendance_id' => $attendance->id,
+        'user_id' => $user->id,
+        'requested_clock_in_at' => now()->setTime(9, 30),
+        'requested_clock_out_at' => now()->setTime(18, 30),
+        'reason' => '電車遅延のため',
+        'status' => 'pending',
+    ]);
+
+    $response = $this->actingAs($user)
+        ->get(route('stamp_correction_request.index', ['status' => 'pending']));
+
+    $response->assertOk();
+    $response->assertSee('詳細');
+    $response->assertSee(route('attendance.show', $attendance->id), false);
+
+    $detailResponse = $this->actingAs($user)
+        ->get(route('attendance.show', $attendance->id));
+
+    $detailResponse->assertOk();
+    $detailResponse->assertSee('勤怠詳細');
+    }
+
 }

@@ -27,6 +27,7 @@
             </a>
 
             <div class="date-nav__current">
+                <i class="fa-regular fa-calendar-days"></i>
                 {{ \Carbon\Carbon::parse($currentMonth)->format('Y/m') }}
             </div>
 

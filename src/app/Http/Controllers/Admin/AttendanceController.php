@@ -23,9 +23,13 @@ class AttendanceController extends Controller
 
     public function show(Attendance $attendance)
     {
-        $attendance->load(['user','attendanceBreaks']);
+        $attendance->load(['user','attendanceBreaks', 'attendanceCOrrectionRequests']);
 
-        return view('admin.attendance.show', compact('attendance'));
+        $pendingRequestExists =$attendance->attendanceCorrectionRequests()
+            ->where('status', 'pending')
+            ->exists();
+
+        return view('admin.attendance.show', compact('attendance', 'pendingRequestExists'));
     }
 
     public function staffAttendanceList(Request $request, User $user)
@@ -84,6 +88,8 @@ class AttendanceController extends Controller
 
         $callback = function () use ($startOfMonth, $endOfMonth, $attendances) {
             $file = fopen('php://output', 'w');
+
+            fwrite($file, chr(0xEF) . chr(0xBB) . chr(0xBF));
 
             fputcsv($file, ['日付', '出勤', '退勤', '休憩', '合計']);
 

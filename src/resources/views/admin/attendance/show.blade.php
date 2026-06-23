@@ -25,27 +25,46 @@
             <table class="attendance-detail__table">
                 <tr>
                     <th>名前</th>
-                    <td>{{ $attendance->user->name }}</td>
+                    <td>
+                        @php
+                            $nameParts = preg_split('/[.  ]+/u', trim($attendance->user->name));
+                        @endphp
+
+                        <div class="detail-name">
+                            <span>{{ $nameParts[0] ?? '' }}</span>
+                            <span>{{ $nameParts[1] ?? '' }}</span>
+                        </div>
+                    </td>
                 </tr>
                 <tr>
                     <th>日付</th>
                     <td>
-                        {{ \Carbon\Carbon::parse($attendance->work_date)->format('Y年') }}
-                        {{ \Carbon\Carbon::parse($attendance->work_date)->format('n月j日') }}
+                        <div class="detail-date">
+                            <span>{{ \Carbon\Carbon::parse($attendance->work_date)->format('Y年') }}</span>
+                            <span>{{ \Carbon\Carbon::parse($attendance->work_date)->format('n月j日') }}</span>
+                        </div>
                     </td>
                 </tr>
                 <tr>
                     <th>出勤・退勤</th>
                     <td>
-                        <input type="time"
-                            name="clock_in_at"
-                            value="{{ $attendance->clock_in_at ? \Carbon\Carbon::parse($attendance->clock_in_at)->format('H:i') : '' }}">
+                        <div class="detail-time">
+                            <input
+                                type="text"
+                                name="clock_in_at"
+                                value="{{ old('clock_in_at', $attendance->clock_in_at ? \Carbon\Carbon::parse($attendance->clock_in_at)->format('H:i') : '') }}"
+                                @if ($pendingRequestExists) disabled @endif
+                            >
 
-                        〜
+                            <span>〜</span>
 
-                        <input type="time"
-                            name="clock_out_at"
-                            value="{{ $attendance->clock_out_at ? \Carbon\Carbon::parse($attendance->clock_out_at)->format('H:i') : '' }}">
+                            <input
+                                type="text"
+                                name="clock_out_at"
+                                value="{{ old('clock_out_at', $attendance->clock_out_at ? \Carbon\Carbon::parse($attendance->clock_out_at)->format('H:i') : '') }}"
+                                @if ($pendingRequestExists) disabled @endif
+                            >
+                        </div>
                     </td>
                 </tr>
 
@@ -53,38 +72,44 @@
                     <tr>
                         <th>休憩</th>
                         <td>
-                            <input
-                                type="time"
-                                name="break_start_at[]"
-                                value="{{ isset($attendance->attendanceBreaks[0]) && $attendance->attendanceBreaks[0]->break_start_at ? \Carbon\Carbon::parse($attendance->attendanceBreaks[0]->break_start_at)->format('H:i') : '' }}"
-                            >
+                            <div class="detail-time">
+                                <input
+                                    type="text"
+                                    name="break_start_at[]"
+                                    value="{{ old("break_start_at.$index", $break && $break->break_start_at ? \Carbon\Carbon::parse($break->break_start_at)->format('H:i') : '') }}"
+                                    @if ($pendingRequestExists) disabled @endif
+                                >
 
-                            〜
+                                <span>〜</span>
 
-                            <input
-                                type="time"
-                                name="break_end_at[]"
-                                value="{{ isset($attendance->attendanceBreaks[0]) && $attendance->attendanceBreaks[0]->break_end_at ? \Carbon\Carbon::parse($attendance->attendanceBreaks[0]->break_end_at)->format('H:i') : '' }}"
-                            >
+                                <input
+                                    type="text"
+                                    name="break_end_at[]"
+                                    value="{{ old("break_end_at.$index", $break && $break->break_end_at ? \Carbon\Carbon::parse($break->break_end_at)->format('H:i') : '') }}"
+                                    @if ($pendingRequestExists) disabled @endif
+                                >
+                            </div>
                         </td>
                     </tr>
 
                     <tr>
                         <th>休憩2</th>
                         <td>
-                            <input
-                                type="time"
-                                name="break_start_at[]"
-                                value="{{ isset($attendance->attendanceBreaks[1]) && $attendance->attendanceBreaks[1]->break_start_at ? \Carbon\Carbon::parse($attendance->attendanceBreaks[1]->break_start_at)->format('H:i') : '' }}"
-                            >
+                            <div class="detail-time">
+                                <input
+                                    type="text"
+                                    name="break_start_at[]"
+                                    value="{{ isset($attendance->attendanceBreaks[1]) && $attendance->attendanceBreaks[1]->break_start_at ? \Carbon\Carbon::parse($attendance->attendanceBreaks[1]->break_start_at)->format('H:i') : '' }}"
+                                >
 
-                            〜
+                                <span>〜</span>
 
-                            <input
-                                type="time"
-                                name="break_end_at[]"
-                                value="{{ isset($attendance->attendanceBreaks[1]) && $attendance->attendanceBreaks[1]->break_end_at ? \Carbon\Carbon::parse($attendance->attendanceBreaks[1]->break_end_at)->format('H:i') : '' }}"
-                            >
+                                <input
+                                    type="text"
+                                    name="break_end_at[]"
+                                    value="{{ isset($attendance->attendanceBreaks[1]) && $attendance->attendanceBreaks[1]->break_end_at ? \Carbon\Carbon::parse($attendance->attendanceBreaks[1]->break_end_at)->format('H:i') : '' }}"
+                                >
+                            </div>
                         </td>
                     </tr>
                 @endforeach
@@ -98,7 +123,7 @@
                 </tr>
             </table>
 
-            @if ($request->status === 'pending')
+            @if ($pendingRequestExists)
                 <p class="correction-message">
                     承認待ちのため修正はできません。
                 </p>
