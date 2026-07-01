@@ -78,4 +78,78 @@ class AdminAttendanceListTest extends TestCase
 
         Carbon::setTestNow();
     }
+
+    /** @test */
+    public function 勤怠一覧画面に現在の日付が表示される()
+    {
+        Carbon::setTestNow(Carbon::parse('2026-06-22 10:00:00'));
+
+        $admin = $this->createAdmin();
+
+        $response = $this->actingAs($admin)
+            ->get(route('admin.attendance.index'));
+
+        $response->assertOk();
+        $response->assertSee('2026/06/22');
+
+        Carbon::setTestNow();
+    }
+
+    /** @test */
+    public function 前日ボタンを押すと前日の勤怠情報が表示される()
+    {
+        Carbon::setTestNow(Carbon::parse('2026-06-22 10:00:00'));
+
+        $admin = $this->createAdmin();
+
+        $user = $this->createUser('山田 太郎', 'taro@example.com');
+
+        Attendance::create([
+            'user_id' => $user->id,
+            'work_date' => '2026-06-21',
+            'clock_in_at' => '2026-06-21 08:30:00',
+            'clock_out_at' => '2026-06-21 17:30:00',
+            'status' => '退勤済',
+        ]);
+
+        $response = $this->actingAs($admin)
+            ->get(route('admin.attendance.index', ['date' => '2026-06-21']));
+
+        $response->assertOk();
+        $response->assertSee('2026/06/21');
+        $response->assertSee('山田 太郎');
+        $response->assertSee('08:30');
+        $response->assertSee('17:30');
+
+        Carbon::setTestNow();
+    }
+
+    /** @test */
+    public function 翌日のボタンを押すと翌日の勤怠情報が表示される()
+    {
+        Carbon::setTestNow(Carbon::parse('2026-06-22 10:00:00'));
+
+        $admin = $this->createAdmin();
+
+        $user = $this->createUser('佐藤 花子', 'hanako@example.com');
+
+        Attendance::create([
+            'user_id' => $user->id,
+            'work_date' => '2026-06-23',
+            'clock_in_at' => '2026--6-23 10:00:00',
+            'clock_out_at' => '2026-06-23 19:00:00',
+            'status' => '退勤済',
+        ]);
+
+        $response = $this->actingAs($admin)
+            ->get(route('admin.attendance.index', ['date' => '2026-06-23']));
+
+        $response->assertOk();
+        $response->assertSee('2026/06/23');
+        $response->assertSee('佐藤 花子');
+        $response->assertSee('10:00');
+        $response->assertSee('19:00');
+
+        Carbon::setTestNow();
+    }
 }

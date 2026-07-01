@@ -137,11 +137,45 @@ class AttendanceController extends Controller
 
     public function update(Request $request, Attendance $attendance)
     {
-        $request->validate([
-            'clock_in_at' => ['required'],
-            'clock_out_at' => ['required'],
-            'note' => ['required'],
-        ]);
+
+        if ($request->clock_in_at && $request->clock_out_at && $request->clock_in_at > $request->clock_out_at) {
+            return back()
+                ->withErrors([
+                    'clock_in_at' => '出勤時間もしくは退勤時間が不適切な値です',
+                ])
+                ->withInput();
+        }
+
+        foreach ($request->break_start_at ?? [] as $index => $breakStartAt) {
+            $breakEndAt = $request->break_end_at[$index] ?? null;
+
+            if ($breakStartAt && $request->clock_out_at && $breakStartAt > $request->clock_out_at) {
+                return back()
+                    ->withErrors([
+                        "break_start_at.$index" => '休憩時間が不適切な値です',
+                ])
+                ->withInput();
+            }
+
+            if ($breakEndAt && $request->clock_out_at && $breakEndAt > $request->clock_out_at) {
+                return back()
+                    ->withErrors([
+                        "break_end_at.$index" => '休憩時間もしくは退勤時間が不適切な値です',
+                ])
+                ->withInput();
+            }
+        }
+
+        $request->validate(
+            [
+                'clock_in_at' => ['required'],
+                'clock_out_at' => ['required'],
+                'note' => ['required'],
+            ],
+            [
+                'note.required' => '備考を記入してください',
+            ]
+        );
 
         $workDate = \Carbon\Carbon::parse($attendance->work_date)->format('Y-m-d');
 

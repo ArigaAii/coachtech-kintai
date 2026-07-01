@@ -112,4 +112,104 @@ class AdminApprovalTest extends TestCase
             \Carbon\Carbon::parse($attendance->clock_out_at)->format('H:i')
         );
     }
+
+    /** @test */
+    public function 管理者は承認待ちの修正申請を一覧で確認できる()
+    {
+        $admin = $this->createAdmin();
+        $user = $this->createGeneralUser();
+
+        $attendance = Attendance::create([
+            'user_id' => $user->id,
+            'work_date' => '2026-06-10',
+            'clock_in_at' => '2026-06-10 09:00:00',
+            'clock_out_at' => '2026-06-10 18:00:00',
+        ]);
+
+        AttendanceCorrectionRequest::create([
+            'attendance_id' => $attendance->id,
+            'user_id' => $user->id,
+            'requested_clock_in_at' => '2026-06-10 10:00:00',
+            'requested_clock_out_at' => '2026-06-10 19:00:00',
+            'reason' => '電車遅延',
+            'status' => 'pending',
+        ]);
+
+        $response = $this->actingAs($admin)
+            ->get(route('stamp_correction_request.index', ['status' => 'pending']));
+
+        $response->assertOk();
+        $response->assertSee('承認待ち');
+        $response->assertSee('一般ユーザー');
+        $response->assertSee('電車遅延');
+        $response->assertSee('2026/06/10');
+    }
+
+    /** @test */
+    public function 管理者は承認済みの修正申請を一覧で確認できる()
+    {
+        $admin = $this->createAdmin();
+        $user = $this->createGeneralUser();
+
+        $attendance = Attendance::create([
+            'user_id' => $user->id,
+            'work_date' => '2026-06-11',
+            'clock_in_at' => '2026-06-11 09:00:00',
+            'clock_out_at' => '2026-06-11 18:00:00',
+        ]);
+
+        AttendanceCorrectionRequest::create([
+            'attendance_id' => $attendance->id,
+            'user_id' => $user->id,
+            'requested_clock_in_at' => '2026-06-11 10:00:00',
+            'requested_clock_out_at' => '2026-06-11 19:00:00',
+            'reason' => '通院のため',
+            'status' => 'approved',
+            'reviewed_by' => $admin->id,
+            'reviewed_at' => now(),
+        ]);
+
+        $response = $this->actingAs($admin)
+            ->get(route('stamp_correction_request.index', ['status' => 'approved']));
+
+        $response->assertOk();
+        $response->assertSee('承認済み');
+        $response->assertSee('一般ユーザー');
+        $response->assertSee('通院のため');
+        $response->assertSee('2026/06/11');
+    }
+
+    /** @test */
+    public function 管理者は修正申請の詳細内容を確認できる()
+    {
+        $admin = $this->createAdmin();
+        $user = $this->createGeneralUser();
+
+        $attendance = Attendance::create([
+            'user_id' => $user->id,
+            'work_date' => '2026-06-12',
+            'clock_in_at' => '2026-06-12 09:00:00',
+            'clock_out_at' => '2026-06-12 18:00:00',
+        ]);
+
+        $request = AttendanceCorrectionRequest::create([
+            'attendance_id' => $attendance->id,
+            'user_id' => $user->id,
+            'requested_clock_in_at' => '2026-06-12 10:00:00',
+            'requested_clock_out_at' => '2026-06-12 19:00:00',
+            'reason' => '電車遅延',
+            'status' => 'pending',
+        ]);
+
+        $response = $this->actingAs($admin)
+            ->get(route('admin.stamp_correction_request.show', $request->id));
+
+        $response->assertOk();
+        $response->assertSee('一般ユーザー');
+        $response->assertSee('2026年');
+        $response->assertSee('6月12日');
+        $response->assertSee('10:00');
+        $response->assertSee('19:00');
+        $response->assertSee('電車遅延');
+    }
 }
